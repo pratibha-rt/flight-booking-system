@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @RestController
 @RequestMapping("/api/v1/db/airline")
