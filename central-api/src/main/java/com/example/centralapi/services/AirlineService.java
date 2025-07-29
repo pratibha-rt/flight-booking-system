@@ -29,8 +29,8 @@ public class AirlineService {
         appUserAdmin = dbApiConnector.callCreateUserEndpoint(appUserAdmin);
         Airline airline = mapper.mapAirlineRegistrationDtoToAirline(airlineRegistrationDto, appUserAdmin);
         airline = dbApiConnector.callCreateAirlineEndpoint(airline);
-        List<AppUser> systemAdminList = userService.listOfAllUserAdmin();
-        mailService.mailSystemAdminForAirlineRegistration(systemAdminList, airline);
+//        List<AppUser> systemAdminList = userService.listOfAllUserAdmin();
+//        mailService.mailSystemAdminForAirlineRegistration(systemAdminList, airline);
         return airline;
     }
 }
