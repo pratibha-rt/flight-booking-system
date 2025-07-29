@@ -3,7 +3,6 @@ package com.example.centralapi.connectors;
 import com.example.centralapi.dto.AllUsersDto;
 import com.example.centralapi.models.Airline;
 import com.example.centralapi.models.AppUser;
-import com.sun.javaws.progress.PreloaderDelegate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
