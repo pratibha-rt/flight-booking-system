@@ -5,11 +5,13 @@ import com.example.centralapi.dto.AirlineRegistrationDto;
 import com.example.centralapi.dto.AirlineRegistrationReqDto;
 import com.example.centralapi.models.Airline;
 import com.example.centralapi.models.AppUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class MailService {
     NotificationApi notificationApi;
@@ -24,7 +26,16 @@ public class MailService {
             airlineRegistrationReqDto.setAirline(airline);
             airlineRegistrationReqDto.setAppAdmin(user);
             notificationApi.notifySystemAdminForAirlineRegistration(airlineRegistrationReqDto);
+            System.out.println("mail send!!");
 
+        }
+    }
+
+    public void notifyAcceptToAirlineAdmin (Airline airline) {
+        try {
+            notificationApi.notifyAcceptRequestToAirlineAdmin(airline);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
     }
 }

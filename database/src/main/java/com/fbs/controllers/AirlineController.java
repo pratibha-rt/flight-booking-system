@@ -26,7 +26,7 @@ public class AirlineController {
         return new ResponseEntity<>(airlineRepo.save(airline), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{airlineId}")
+    @GetMapping("/get/{airlineId}")
     public ResponseEntity readAirline(@PathVariable UUID airlineId) {
         return new ResponseEntity<>(airlineRepo.findById(airlineId), HttpStatus.OK);
     }

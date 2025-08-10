@@ -2,16 +2,16 @@ package com.example.centralapi.contollers;
 
 import com.example.centralapi.dto.AirlineRegistrationDto;
 import com.example.centralapi.services.AirlineService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/central/airline")
 public class Airline {
@@ -29,4 +29,11 @@ public class Airline {
         System.out.println("Airline registered: " + airline.getAirlineName() + " with ID: " + airline.getId());
         return  new ResponseEntity<>(airline, HttpStatus.CREATED);
     }
+
+    @GetMapping("/request/accept/{airlineId}")
+    public void acceptAirlineRequest(@PathVariable UUID airlineId) {
+        log.info("airline Id : " + airlineId.toString());
+        airlineService.acceptAirlineRequest(airlineId);
+    }
+
 }

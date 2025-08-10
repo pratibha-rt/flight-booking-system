@@ -20,4 +20,7 @@ public class UserService {
     public List<AppUser> listOfAllUserAdmin () {
         return dbApi.callGetAllSystemUserEndpoints(UserType.SYSTEM_ADMIN.toString());
     }
+    public AppUser updateUserDetails(AppUser appUser) {
+        return dbApi.updateAppUserDetailsEndpoint(appUser);
+    }
 }

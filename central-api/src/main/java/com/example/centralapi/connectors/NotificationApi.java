@@ -1,6 +1,8 @@
 package com.example.centralapi.connectors;
 
+import com.example.centralapi.dto.AirlineRegistrationDto;
 import com.example.centralapi.dto.AirlineRegistrationReqDto;
+import com.example.centralapi.models.Airline;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -22,9 +24,14 @@ public class NotificationApi {
 
     public void notifySystemAdminForAirlineRegistration(AirlineRegistrationReqDto airlineRegistrationReqDto) {
         String url = baseUrl + "/appAdmin/airline-registration";
-        RequestEntity request = RequestEntity.get(url).build();
-        restTemplate.exchange(url, HttpMethod.GET, request, Object.class);
+        RequestEntity request = RequestEntity.put(url).body(airlineRegistrationReqDto);
+        restTemplate.exchange(url, HttpMethod.PUT, request, Object.class);
     }
 
+    public void notifyAcceptRequestToAirlineAdmin(Airline airline) {
+        String url = baseUrl + "/airline/admin/accept-request";
+        RequestEntity request = RequestEntity.put(url).body(airline);
+        restTemplate.exchange(url, HttpMethod.PUT, request, Object.class);
+    }
 
 }

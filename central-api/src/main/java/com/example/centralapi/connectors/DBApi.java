@@ -8,9 +8,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class DBApi {
@@ -44,6 +46,27 @@ public class DBApi {
         ResponseEntity<AllUsersDto> response = restTemplate.exchange(url, HttpMethod.GET, request, AllUsersDto.class);
         return response.getBody().getAppUsers();
 
+    }
+
+    public Airline getAirlineByIdEndpoint(UUID airlineId) {
+        String url = dbApiBaseUrl + "/airline/get/" + airlineId.toString();
+        RequestEntity request = RequestEntity.get(url).build();
+        ResponseEntity<Airline> response = restTemplate.exchange(url, HttpMethod.GET, request, Airline.class);
+        return response.getBody();
+    }
+
+    public Airline update(@RequestBody Airline airline) {
+        String url = dbApiBaseUrl + "/airline/update";
+        RequestEntity request = RequestEntity.put(url).body(airline);
+        ResponseEntity<Airline> response = restTemplate.exchange(url, HttpMethod.PUT, request, Airline.class);
+        return response.getBody();
+    }
+
+    public AppUser updateAppUserDetailsEndpoint(AppUser appUser) {
+        String url = dbApiBaseUrl + "/appuser/update";
+        RequestEntity request = RequestEntity.put(url).body(appUser);
+        ResponseEntity<AppUser> response = restTemplate.exchange(url, HttpMethod.PUT, request, AppUser.class);
+        return response.getBody();
     }
 }
 

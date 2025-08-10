@@ -63,4 +63,9 @@ public class AppUserController {
         AppUser user = appUserRepo.save(appUser);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<AppUser> updateUser (@RequestBody AppUser appUser) {
+        return new ResponseEntity<>(appUserRepo.save(appUser), HttpStatus.OK);
+    }
 }

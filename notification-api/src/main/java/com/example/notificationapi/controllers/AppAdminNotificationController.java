@@ -2,6 +2,7 @@ package com.example.notificationapi.controllers;
 
 import com.example.notificationapi.dto.AirlineRegistrationReqDto;
 import com.example.notificationapi.services.AppAdminNotificationService;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class AppAdminNotificationController {
 
     @PutMapping("/airline-registration")
     public void airlineRegistrationRequestNotification
-            (@RequestBody AirlineRegistrationReqDto airlineRegistrationReqDto) {
+            (@RequestBody AirlineRegistrationReqDto airlineRegistrationReqDto){
         appAdminNotificationService.sendAirlineRegistrationRequestNotification(airlineRegistrationReqDto);
 
     }
