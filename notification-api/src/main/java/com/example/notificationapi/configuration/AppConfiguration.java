@@ -18,15 +18,7 @@ public class AppConfiguration {
 
     @Bean
     public JavaMailSender javaMailSender () {
-        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-        javaMailSender.setUsername("pratibha.sept19@gmail.com");
-        javaMailSender.setPassword("kstdqhgntcyreyoh");
-        Properties props = javaMailSender.getJavaMailProperties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        return javaMailSender;
+        return new JavaMailSenderImpl();
     }
 
     @Bean
