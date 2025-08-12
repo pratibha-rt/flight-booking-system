@@ -1,5 +1,6 @@
 package com.example.notificationapi.services;
 
+import com.example.notificationapi.dto.AirlineRejectDto;
 import com.example.notificationapi.models.Airline;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,25 @@ public class AirlineNotificationService {
             helper.setText(htmlContent, true);
             javaMailSender.send(mimeMessage);
         } catch(Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void airlineAdminRejectNotification(AirlineRejectDto airlineRejectDto) {
+
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+
+            Context context = new Context();
+            context.setVariable("adminName", airlineRejectDto.getAirlineAdminName());
+            context.setVariable("reason", airlineRejectDto.getRejectReason());
+            String htmlContent = templateEngine.process("reject-airline-dto", context);
+            helper.setTo(airlineRejectDto.getAirlineAdminEmail());
+            helper.setSubject("Registration Request Rejected");
+            helper.setText(htmlContent, true);
+            javaMailSender.send(mimeMessage);
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }

@@ -1,11 +1,14 @@
 package com.example.centralapi.services;
 
 import com.example.centralapi.connectors.DBApi;
+import com.example.centralapi.connectors.Gemini;
 import com.example.centralapi.dto.AirlineRegistrationDto;
 import com.example.centralapi.enums.AirlineStatus;
 import com.example.centralapi.enums.UserStatus;
 import com.example.centralapi.models.Airline;
 import com.example.centralapi.models.AppUser;
+import com.example.centralapi.models.GeminiApiRequest;
+import com.example.centralapi.models.GeminiApiResponse;
 import com.example.centralapi.utility.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +23,15 @@ public class AirlineService {
     DBApi dbApiConnector;
     UserService userService;
     MailService mailService;
+    Gemini gemini;
     @Autowired
-    public AirlineService (Mapper mapper, DBApi dbApi, UserService userService, MailService mailService) {
+    public AirlineService (Mapper mapper, DBApi dbApi, UserService userService,
+                           MailService mailService, Gemini gemini) {
         this.mapper = mapper;
         this.dbApiConnector = dbApi;
         this.userService = userService;
         this.mailService = mailService;
+        this.gemini = gemini;
     }
 
     public Airline registerAirline(AirlineRegistrationDto airlineRegistrationDto) {
@@ -59,5 +65,16 @@ public class AirlineService {
         userService.updateUserDetails(airlineAdmin);
         mailService.notifyAcceptToAirlineAdmin(airline);
         return airline;
+    }
+
+    public void rejectAirlineRequest(UUID airlineId) {
+        //to verify if the id is correct or not
+        Airline airline = this.getAirlineById(airlineId);
+        airline.setStatus(AirlineStatus.REJECTED.toString());
+        airline = this.updateAirlineDetails(airline);
+        String prompt = "Generate failure reasons for airline details : " + airline + toString();
+        GeminiApiResponse geminiApiResponse = gemini.callGeminiGenAIEndpoint(prompt);
+        String response = geminiApiResponse.getCandidates().get(0).getContent().getParts().get(0).getText();
+        mailService.notifyRejectToAirlineAdmin(airline.getAdmin().getEmail(), airline.getAdmin().getName(), response);
     }
 }

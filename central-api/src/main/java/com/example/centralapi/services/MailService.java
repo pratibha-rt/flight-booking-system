@@ -3,6 +3,7 @@ package com.example.centralapi.services;
 import com.example.centralapi.connectors.NotificationApi;
 import com.example.centralapi.dto.AirlineRegistrationDto;
 import com.example.centralapi.dto.AirlineRegistrationReqDto;
+import com.example.centralapi.dto.AirlineRejectDto;
 import com.example.centralapi.models.Airline;
 import com.example.centralapi.models.AppUser;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,18 @@ public class MailService {
     public void notifyAcceptToAirlineAdmin (Airline airline) {
         try {
             notificationApi.notifyAcceptRequestToAirlineAdmin(airline);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void notifyRejectToAirlineAdmin (String email, String name, String rejectReason) {
+        AirlineRejectDto airlineRejectDto = new AirlineRejectDto();
+        airlineRejectDto.setAirlineAdminEmail(email);
+        airlineRejectDto.setAirlineAdminName(name);
+        airlineRejectDto.setRejectReason(rejectReason);
+        try {
+            notificationApi.notifyRejectToAirlineAdmin(airlineRejectDto);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
